@@ -121,6 +121,22 @@
             "dependsOn": [
                 "uv: Install dev dependencies"
             ]
+        },
+        {
+            "label": "uv: Build Package",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "run",
+                "python",
+                "-m",
+                "build"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
         }
     ]
 }
