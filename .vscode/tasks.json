@@ -8,8 +8,24 @@
             "args": [
                 "pip",
                 "install",
-                "-r",
-                "requirements.txt"
+                "-e",
+                "."
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "uv: Install dev dependencies",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "pip",
+                "install",
+                "-e",
+                ".[dev]"
             ],
             "group": "build",
             "presentation": {
@@ -24,7 +40,8 @@
             "args": [
                 "run",
                 "python",
-                "stock_price_server.py"
+                "-m",
+                "stock_price_server"
             ],
             "group": "build",
             "presentation": {
@@ -42,7 +59,6 @@
             "args": [
                 "run",
                 "pytest",
-                "test_stock_price_server.py",
                 "-v"
             ],
             "group": {
@@ -52,7 +68,10 @@
             "presentation": {
                 "reveal": "always"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": [
+                "uv: Install dev dependencies"
+            ]
         },
         {
             "label": "uv: Create Virtual Environment",
@@ -66,6 +85,42 @@
                 "reveal": "always"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "uv: Format Code",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "run",
+                "black",
+                "."
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "uv: Install dev dependencies"
+            ]
+        },
+        {
+            "label": "uv: Sort Imports",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "run",
+                "isort",
+                "."
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [],
+            "dependsOn": [
+                "uv: Install dev dependencies"
+            ]
         }
     ]
 }

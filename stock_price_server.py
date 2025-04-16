@@ -4,6 +4,7 @@ import yfinance as yf
 # Create an MCP server with a custom name
 mcp = FastMCP("Stock Price Server")
 
+
 @mcp.tool()
 def get_stock_price(symbol: str) -> float:
     """
@@ -16,7 +17,7 @@ def get_stock_price(symbol: str) -> float:
         data = ticker.history(period="1d")
         if not data.empty:
             # Use the last closing price from today's data
-            price = data['Close'].iloc[-1]
+            price = data["Close"].iloc[-1]
             return float(price)
         else:
             # As a fallback, try using the regular market price from the ticker info
@@ -30,6 +31,7 @@ def get_stock_price(symbol: str) -> float:
         # Return -1.0 to indicate an error occurred when fetching the stock price
         return -1.0
 
+
 @mcp.resource("stock://{symbol}")
 def stock_resource(symbol: str) -> str:
     """
@@ -41,12 +43,13 @@ def stock_resource(symbol: str) -> str:
         return f"Error: Could not retrieve price for symbol '{symbol}'."
     return f"The current price of '{symbol}' is ${price:.2f}."
 
+
 @mcp.tool()
 def get_stock_history(symbol: str, period: str = "1mo") -> str:
     """
     Retrieve historical data for a stock given a ticker symbol and a period.
     Returns the historical data as a CSV formatted string.
-    
+
     Parameters:
         symbol: The stock ticker symbol.
         period: The period over which to retrieve historical data (e.g., '1mo', '3mo', '1y').
@@ -62,12 +65,13 @@ def get_stock_history(symbol: str, period: str = "1mo") -> str:
     except Exception as e:
         return f"Error fetching historical data: {str(e)}"
 
+
 @mcp.tool()
 def compare_stocks(symbol1: str, symbol2: str) -> str:
     """
     Compare the current stock prices of two ticker symbols.
     Returns a formatted message comparing the two stock prices.
-    
+
     Parameters:
         symbol1: The first stock ticker symbol.
         symbol2: The second stock ticker symbol.
@@ -84,5 +88,11 @@ def compare_stocks(symbol1: str, symbol2: str) -> str:
         result = f"Both {symbol1} and {symbol2} have the same price (${price1:.2f})."
     return result
 
-if __name__ == "__main__":
+
+def main():
+    """Entry point for the stock price server."""
     mcp.run()
+
+
+if __name__ == "__main__":
+    main()
